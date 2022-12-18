@@ -1,5 +1,4 @@
-﻿using Pizza.Api.Handlers;
-using Pizza.Api.Repositories;
+﻿using Pizza.Api.Endpoints;
 
 namespace Pizza.Api.Extensions;
 
@@ -8,19 +7,19 @@ public static class WebApplicationExtensions
     public static void MapEndpoints(this WebApplication app)
     {
         //Welcome!
-        app.MapGet("/", () => "Welcome to Italian Crust!");
+        app.MapGet("/", () => "Welcome to the Pizza API of Italian Crust!");
         
         //Create
-        app.MapPost("/pizzas", (IPizzaRepository pizzaRepository, Models.Pizza pizza) => CreatePizzaHandler.HandleAsync(pizzaRepository, pizza));
+        app.MapPost(CreatePizzaEndpoint.Pattern, CreatePizzaEndpoint.Handler);
 
         //Read
-        app.MapGet("/pizzas", (IPizzaRepository pizzaRepository) => GetAllPizzasHandler.HandleAsync(pizzaRepository));
-        app.MapGet("/pizzas/{pizzaId}", (IPizzaRepository pizzaRepository, int pizzaId) => GetPizzaByIdHandler.HandleAsync(pizzaRepository, pizzaId));
+        app.MapGet(GetAllPizzasEndpoint.Pattern, GetAllPizzasEndpoint.Handler);
+        app.MapGet(GetPizzaByIdEndpoint.Pattern, GetPizzaByIdEndpoint.Handler);
 
         //Update
-        app.MapPut("/pizzas", (IPizzaRepository pizzaRepository, Models.Pizza pizza) => EditPizzaHandler.HandleAsync(pizzaRepository, pizza));
+        app.MapPut(EditPizzaEndpoint.Pattern, EditPizzaEndpoint.Handler);
 
         //Delete
-        app.MapDelete("/pizzas/{pizzaId}", (IPizzaRepository pizzaRepository, int pizzaId) => DeletePizzaHandler.HandleAsync(pizzaRepository, pizzaId));
+        app.MapDelete(DeletePizzaEndpoint.Pattern, DeletePizzaEndpoint.Handler);
     }
 }
