@@ -24,7 +24,7 @@ public class GetPizzaByIdHandlerMoqTests
     }
 
     [Fact]
-    public async Task HandleAsync_WhenPizzExists_ReturnsOk()
+    public async Task HandleAsync_WhenPizzaExists_ReturnsOk()
     {
         //Arrange
         var mock = new Mock<IPizzaRepository>();
