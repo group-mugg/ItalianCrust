@@ -1,12 +1,12 @@
-﻿using Pizza.Api.Repositories;
+﻿using Pizza.Api.DTOs;
+using Pizza.Api.Repositories;
 
 namespace Pizza.Api.Handlers;
 
 public static class EditPizzaHandler
 {
-    public static async Task<IResult> HandleAsync(IPizzaRepository repo, Models.Pizza pizza)
+    public static async Task<IResult> HandleAsync(IPizzaRepository repo, PizzaDTO pizza)
     {
-        var result = await repo.EditPizza(pizza);
-        return Results.Ok(result);
+        throw new NotImplementedException();
     }
 }

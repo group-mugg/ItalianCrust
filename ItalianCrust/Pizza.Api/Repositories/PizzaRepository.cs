@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pizza.Api.DAL;
+using Pizza.Api.DTOs;
 
 namespace Pizza.Api.Repositories;
 
@@ -11,49 +12,29 @@ public class PizzaRepository : IPizzaRepository
     {
         _context = context;
     }
-    public async Task<IEnumerable<Models.Pizza>> GetAllPizzas()
+
+    public Task<bool> CreatePizza(PizzaDTO pizza)
     {
-        return await _context.Pizzas.ToListAsync();
-    }
-    public async Task<Models.Pizza?> GetPizzaById(int id)
-    {
-        return await _context.Pizzas.FindAsync(id);
+        throw new NotImplementedException();
     }
 
-    public async Task<bool> CreatePizza(Models.Pizza pizza)
+    public Task<bool> DeletePizza(int id)
     {
-        await _context.Pizzas.AddAsync(pizza);
-        await _context.SaveChangesAsync();
-        return true;
+        throw new NotImplementedException();
     }
 
-    public async Task<bool> EditPizza(Models.Pizza pizza)
+    public Task<bool> EditPizza(PizzaDTO pizza)
     {
-        var dbPizza = await _context.Pizzas.FindAsync(pizza.Id);
-
-        if (dbPizza == null)
-            return false;
-
-        dbPizza.Name = pizza.Name;
-        dbPizza.Description = pizza.Description;
-        dbPizza.Price = pizza.Price;
-
-        _context.Pizzas.Update(dbPizza);
-        await _context.SaveChangesAsync();
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    public async Task<bool> DeletePizza(int id)
+    public Task<IEnumerable<PizzaDTO>> GetAllPizzas()
     {
-        var pizza = await _context.Pizzas.FindAsync(id);
+        throw new NotImplementedException();
+    }
 
-        if (pizza == null)
-            return false;
-
-        _context.Pizzas.Remove(pizza);
-        await _context.SaveChangesAsync();
-
-        return true;
+    public Task<PizzaDTO?> GetPizzaById(int id)
+    {
+        throw new NotImplementedException();
     }
 }

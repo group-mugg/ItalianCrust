@@ -4,5 +4,8 @@ namespace Pizza.Api.Handlers;
 
 public static class GetAllPizzasHandler
 {
-    public static async Task<IResult> HandleAsync(IPizzaRepository repo) => Results.Ok(await repo.GetAllPizzas());
+    public static async Task<IResult> HandleAsync(IPizzaRepository repo)
+    {
+        throw new NotImplementedException();
+    }
 }
