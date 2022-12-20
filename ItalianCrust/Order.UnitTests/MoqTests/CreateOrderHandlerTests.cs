@@ -33,17 +33,18 @@ public class CreateOrderHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_WhenRequestIsMissingName_ReturnsBadRequest()
+    public async Task HandleAsync_WhenRequestNameIsNullOrEmpty_ReturnsBadRequest()
     {
         //Arrange
         var request = new CreateOrderRequest
         {
+            Name = "",
             PizzaIdQuantity = new Dictionary<int, int> { { 1, 1 } }
         };
 
         var orderMock = new Mock<IOrderRepository>();
 
-        orderMock.Setup(m => m.CreateOrder(It.Is<CreateOrderRequest>(req => req.PizzaIdQuantity == request.PizzaIdQuantity)))
+        orderMock.Setup(m => m.CreateOrder(It.Is<CreateOrderRequest>(req => req.Name == request.Name && req.PizzaIdQuantity == request.PizzaIdQuantity)))
             .ReturnsAsync(false);
 
         //Act
@@ -56,17 +57,18 @@ public class CreateOrderHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_WhenRequestIsMissingProductIdQuantity_ReturnsBadRequest()
+    public async Task HandleAsync_WhenRequestPizzaIdQuantityCountIsZero_ReturnsBadRequest()
     {
         //Arrange
         var request = new CreateOrderRequest
         {
-            Name = "TestCustomer"
+            Name = "TestCustomer",
+            PizzaIdQuantity = new Dictionary<int, int>()
         };
 
         var orderMock = new Mock<IOrderRepository>();
 
-        orderMock.Setup(m => m.CreateOrder(It.Is<CreateOrderRequest>(req => req.Name == request.Name)))
+        orderMock.Setup(m => m.CreateOrder(It.Is<CreateOrderRequest>(req => req.Name == request.Name && req.PizzaIdQuantity == request.PizzaIdQuantity)))
             .ReturnsAsync(false);
 
         //Act
