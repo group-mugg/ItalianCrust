@@ -33,10 +33,7 @@ public class GetOrderByIdHandlerTests
         mock.Setup(m => m.GetOrderById(It.Is<int>(id => id == 1)))
             .ReturnsAsync(new OrderDTO
             {
-                Id = 1,
-                CustomerName = "Test",
-                TotalOrder = 1.00M,
-                OrderDate = DateTime.UtcNow
+                Id = 1
             });
 
         //Act
