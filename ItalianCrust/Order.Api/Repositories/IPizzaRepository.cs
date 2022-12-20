@@ -1,5 +1,4 @@
 ﻿using Order.Api.DTOs;
-using Order.Api.Requests;
 
 namespace Order.Api.Repositories;
 

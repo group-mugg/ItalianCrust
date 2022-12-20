@@ -2,9 +2,9 @@
 
 namespace Order.Api.Handlers;
 
-public static class GetAllOrdersHandler
+public static class GetAllPizzasHandler
 {
-    public static async Task<IResult> HandleAsync(IOrderRepository repo)
+    public static async Task<IResult> HandleAsync(IPizzaRepository repo)
     {
         throw new NotImplementedException();
     }

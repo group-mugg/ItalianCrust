@@ -5,6 +5,6 @@ namespace Order.Api.Endpoints;
 
 public static class DeleteOrderEndpoint
 {
-    public static string Pattern { get => "/orders/{orderId}"; }
+    public static string Pattern { get => "/orders/{id}"; }
     public static Delegate Handler { get => (IOrderRepository repo, int id) => DeleteOrderHandler.HandleAsync(repo, id); }
 }
