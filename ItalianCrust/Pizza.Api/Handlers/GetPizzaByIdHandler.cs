@@ -7,6 +7,6 @@ public static class GetPizzaByIdHandler
 {
     public static async Task<IResult> HandleAsync(IPizzaRepository repo, int id)
     {
-        return Results.Ok(new PizzaDTO { Id = 1 });
+        throw new NotImplementedException();
     }
 }
