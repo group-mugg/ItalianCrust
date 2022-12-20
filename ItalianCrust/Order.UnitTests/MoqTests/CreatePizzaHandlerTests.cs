@@ -29,14 +29,13 @@ public class CreatePizzaHandlerTests
     }
 
     [Theory]
-    [InlineData(0, "TestPizza", "")]
-    [InlineData(1, "", "1.00")]
-    [InlineData(1, null, "1.00")]
-    [InlineData(1, "TestPizza", "")]
+    [InlineData(0, "TestPizza", "-1.00")]//When price is negative
+    [InlineData(1, "", "1.00")]//When name is empty
+    [InlineData(1, null, "1.00")]//When name is null
     public async Task HandleAsync_WhenInvalidRequest_ReturnsBadRequest(int id, string name, string price)
     {
         //Arrange
-        var decimalPrice = decimal.Parse(price);
+        decimal decimalPrice = decimal.Parse(price);
         var request = new PizzaDTO { Id = id, Name = name, Price = decimalPrice };
 
         var mock = new Mock<IPizzaRepository>();
