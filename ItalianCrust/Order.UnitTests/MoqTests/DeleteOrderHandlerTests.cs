@@ -24,4 +24,22 @@ public class DeleteOrderHandlerTests
         Assert.IsAssignableFrom<bool>(okResult.Value);
         Assert.True(okResult.Value);
     }
+
+    [Fact]
+    public async Task HandleAsync_WhenTryingToDeleteUnexistingOrder_ReturnsBadRequest()
+    {
+        //Arrange
+        var mock = new Mock<IOrderRepository>();
+
+        mock.Setup(m => m.DeleteOrder(It.Is<int>(id => id == 1)))
+            .ReturnsAsync(false);
+
+        //Act
+        var badRequestResult = (BadRequest<bool>)await DeleteOrderHandler.HandleAsync(mock.Object, 1);
+
+        //Assert
+        Assert.Equal(400, badRequestResult.StatusCode);
+        Assert.IsAssignableFrom<bool>(badRequestResult.Value);
+        Assert.False(badRequestResult.Value);
+    }
 }
