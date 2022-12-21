@@ -6,6 +6,13 @@ namespace Order.Api.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
+    private ModelDbContext modelDbContext;
+
+    public OrderRepository(ModelDbContext modelDbContext)
+    {
+        this.modelDbContext = modelDbContext;
+    }
+
     public Task<bool> CreateOrder(CreateOrderRequest request)
     {
         throw new NotImplementedException();
