@@ -31,7 +31,7 @@ public class GetPizzaByIdHandlerTests
         var mock = new Mock<IPizzaRepository>();
 
         mock.Setup(m => m.GetPizzaById(It.Is<int>(id => id == 1)))
-            .ReturnsAsync(new PizzaDTO { Id = 1 });
+            .ReturnsAsync(new PizzaDTO { Id = 1, Name = "TestPizza", Price = 1.00M });
 
         //Act
         var okResult = (Ok<PizzaDTO>)await GetPizzaByIdHandler.HandleAsync(mock.Object, 1);
@@ -40,5 +40,7 @@ public class GetPizzaByIdHandlerTests
         Assert.Equal(200, okResult.StatusCode);
         var foundPizza = Assert.IsAssignableFrom<PizzaDTO>(okResult.Value);
         Assert.Equal(1, foundPizza.Id);
+        Assert.Equal("TestPizza", foundPizza.Name);
+        Assert.Equal(1.00M, foundPizza.Price);
     }
 }

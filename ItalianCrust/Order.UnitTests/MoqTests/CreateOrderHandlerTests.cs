@@ -12,11 +12,7 @@ public class CreateOrderHandlerTests
     public async Task HandleAsync_WhenValidRequest_ReturnsOk()
     {
         //Arrange
-        var request = new CreateOrderRequest
-        {
-            Name = "TestCustomer",
-            PizzaIdQuantity = new Dictionary<int, int> { { 1, 1 } }
-        };
+        var request = new CreateOrderRequest { Name = "TestCustomer", PizzaIdQuantity = new Dictionary<int, int> { { 1, 1 } } };
 
         var orderMock = new Mock<IOrderRepository>();
 
@@ -28,19 +24,15 @@ public class CreateOrderHandlerTests
 
         //Assert
         Assert.Equal(200, okResult.StatusCode);
-        Assert.IsAssignableFrom<bool>(okResult.Value);
-        Assert.True(okResult.Value);
+        var response = Assert.IsAssignableFrom<bool>(okResult.Value);
+        Assert.True(response);
     }
 
     [Fact]
     public async Task HandleAsync_WhenRequestNameIsNullOrEmpty_ReturnsBadRequest()
     {
         //Arrange
-        var request = new CreateOrderRequest
-        {
-            Name = "",
-            PizzaIdQuantity = new Dictionary<int, int> { { 1, 1 } }
-        };
+        var request = new CreateOrderRequest { Name = "", PizzaIdQuantity = new Dictionary<int, int> { { 1, 1 } } };
 
         var orderMock = new Mock<IOrderRepository>();
 
@@ -52,19 +44,15 @@ public class CreateOrderHandlerTests
 
         //Assert
         Assert.Equal(400, badRequestResult.StatusCode);
-        Assert.IsAssignableFrom<bool>(badRequestResult.Value);
-        Assert.False(badRequestResult.Value);
+        var response = Assert.IsAssignableFrom<bool>(badRequestResult.Value);
+        Assert.False(response);
     }
 
     [Fact]
     public async Task HandleAsync_WhenRequestPizzaIdQuantityCountIsZero_ReturnsBadRequest()
     {
         //Arrange
-        var request = new CreateOrderRequest
-        {
-            Name = "TestCustomer",
-            PizzaIdQuantity = new Dictionary<int, int>()
-        };
+        var request = new CreateOrderRequest { Name = "TestCustomer", PizzaIdQuantity = new Dictionary<int, int>() };
 
         var orderMock = new Mock<IOrderRepository>();
 
@@ -76,22 +64,16 @@ public class CreateOrderHandlerTests
 
         //Assert
         Assert.Equal(400, badRequestResult.StatusCode);
-        Assert.IsAssignableFrom<bool>(badRequestResult.Value);
-        Assert.False(badRequestResult.Value);
+        var response = Assert.IsAssignableFrom<bool>(badRequestResult.Value);
+        Assert.False(response);
     }
 
-    /// <summary>
-    /// Warning! This tests assumes that there are less than 1000 pizzas in the database.
-    /// </summary>
+    //Warning! This tests assumes that there are less than 1000 pizzas in the database.
     [Fact]
     public async Task HandleAsync_WhenUnexistingPizzaIdIsUsedInTheRequest_ReturnsBadRequest()
     {
         //Arrange
-        var request = new CreateOrderRequest
-        {
-            Name = "TestCustomer",
-            PizzaIdQuantity = new Dictionary<int, int> { { 1000, 1 } }
-        };
+        var request = new CreateOrderRequest { Name = "TestCustomer", PizzaIdQuantity = new Dictionary<int, int> { { 1000, 1 } } };
 
         var orderMock = new Mock<IOrderRepository>();
 
@@ -103,7 +85,7 @@ public class CreateOrderHandlerTests
 
         //Assert
         Assert.Equal(400, badRequestResult.StatusCode);
-        Assert.IsAssignableFrom<bool>(badRequestResult.Value);
-        Assert.False(badRequestResult.Value);
+        var response = Assert.IsAssignableFrom<bool>(badRequestResult.Value);
+        Assert.False(response);
     }
 }
