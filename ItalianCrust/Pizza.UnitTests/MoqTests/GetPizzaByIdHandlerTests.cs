@@ -8,8 +8,6 @@ namespace Pizza.UnitTests.MoqTests;
 
 public class GetPizzaByIdHandlerTests
 {
-    //UnitOfWork_StateUnderTest_ExpectedBehavior
-
     [Fact]
     public async Task HandleAsync_WhenPizzaDoesNotExist_ReturnsNotFound()
     {
