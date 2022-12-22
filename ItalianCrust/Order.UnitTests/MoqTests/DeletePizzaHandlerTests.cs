@@ -35,7 +35,7 @@ public class DeletePizzaHandlerTests
             .ReturnsAsync(false);
 
         //Act
-        var notFoundResult = (BadRequest<bool>)await DeletePizzaHandler.HandleAsync(mock.Object, 1);
+        var notFoundResult = (NotFound<bool>)await DeletePizzaHandler.HandleAsync(mock.Object, 1);
 
         //Assert
         Assert.Equal(404, notFoundResult.StatusCode);

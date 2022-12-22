@@ -1,31 +1,83 @@
 ﻿using Order.Api.DTOs;
 
 namespace Order.Api.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Order.Api.Extensions;
+using Order.Api.Models;
 
 public class PizzaRepository : IPizzaRepository
 {
-    public Task<bool> CreatePizza(PizzaDTO pizza)
+
+    private ModelDbContext _dBContext;
+
+    public PizzaRepository(ModelDbContext dBContextObject)
     {
-        throw new NotImplementedException();
+        _dBContext = dBContextObject;
     }
 
-    public Task<bool> DeletePizza(int id)
+    public async Task<bool> CreatePizza(PizzaDTO pizza)
     {
-        throw new NotImplementedException();
+        Models.Pizza addPizza = new Pizza();
+        addPizza.Name = pizza.Name;
+        addPizza.Price = pizza.Price;
+        await _dBContext.Pizzas.AddAsync(addPizza);
+
+        await _dBContext.SaveChangesAsync();
+        return true;
     }
 
-    public Task<bool> EditPizza(PizzaDTO pizza)
+    public async Task<bool> DeletePizza(int id)
     {
-        throw new NotImplementedException();
+        var pizzaIsStored = false;
+        foreach (var storedPizza in _dBContext.Pizzas) if (storedPizza.Id == id) pizzaIsStored = true;
+
+        if (!pizzaIsStored) return false;
+
+        _dBContext.Remove(_dBContext.Pizzas.FirstOrDefault(p => p.Id == id)!);
+
+        await _dBContext.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<IEnumerable<PizzaDTO>> GetAllPizzas()
+    public async Task<bool> EditPizza(PizzaDTO pizza)
     {
-        throw new NotImplementedException();
+        var storedPizza = await _dBContext.Pizzas.FirstOrDefaultAsync(p => p.Id == pizza.Id);
+
+        _dBContext.Pizzas.Remove(storedPizza);
+
+        storedPizza.Name = pizza.Name;
+        storedPizza.Price = pizza.Price;
+
+        await _dBContext.Pizzas.AddAsync(storedPizza);
+
+        await _dBContext.SaveChangesAsync();
+        return true;
     }
 
-    public Task<PizzaDTO?> GetPizzaById(int id)
+    public async Task<IEnumerable<PizzaDTO>> GetAllPizzas()
     {
-        throw new NotImplementedException();
+        var pizzas = await _dBContext.Pizzas.ToListAsync();
+
+        var pizzaDtos = new List<PizzaDTO>();
+
+        foreach (var pizza in pizzas)
+        {
+            var pizzaDto = pizza.ConvertToDTO();
+            pizzaDtos.Add(pizzaDto);
+        }
+
+        return pizzaDtos;
+    }
+
+    public async Task<PizzaDTO?> GetPizzaById(int id)
+    {
+        var pizza = await _dBContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
+
+        if (pizza == null) return null;
+
+        PizzaDTO pizzaToReturn = pizza.ConvertToDTO();
+
+        return pizzaToReturn;
     }
 }
