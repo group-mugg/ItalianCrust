@@ -40,9 +40,19 @@ public class PizzaRepository : IPizzaRepository
         return true;
     }
 
-    public Task<bool> EditPizza(PizzaDTO pizza)
+    public async Task<bool> EditPizza(PizzaDTO pizza)
     {
-        throw new NotImplementedException();
+        var storedPizza = await _dBContext.Pizzas.FirstOrDefaultAsync(p => p.Id == pizza.Id);
+
+        _dBContext.Pizzas.Remove(storedPizza);
+
+        storedPizza.Name = pizza.Name;
+        storedPizza.Price = pizza.Price;
+
+        await _dBContext.Pizzas.AddAsync(storedPizza);
+
+        await _dBContext.SaveChangesAsync();
+        return true;
     }
 
     public async Task<IEnumerable<PizzaDTO>> GetAllPizzas()
@@ -62,11 +72,6 @@ public class PizzaRepository : IPizzaRepository
 
     public async Task<PizzaDTO?> GetPizzaById(int id)
     {
-        //var pizzaIsStored = false;
-        //foreach (var storedPizza in _dBContext.Pizzas) if (storedPizza.Id == id) pizzaIsStored = true;
-
-        //if (!pizzaIsStored) return (Task<PizzaDTO?>)Results.NotFound(false);
-
         var pizza = await _dBContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
 
         if (pizza == null) return null;

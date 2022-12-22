@@ -29,9 +29,9 @@ public class EditPizzaHandlerTests
     }
 
     [Theory]
-    [InlineData("", "1.00")]//When name is empty
-    [InlineData(null, "1.00")]//When name is null
-    [InlineData("EditedPizza", "-1.00")]//When price is negative
+    [InlineData("", "1")]//When name is empty
+    [InlineData(null, "1")]//When name is null
+    [InlineData("EditedPizza", "-1")]//When price is negative
     public async Task HandleAsync_WhenInvalidRequest_ReturnsBadRequest(string name, string price)
     {
         //Arrange
