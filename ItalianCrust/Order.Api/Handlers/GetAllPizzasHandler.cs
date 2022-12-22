@@ -6,6 +6,6 @@ public static class GetAllPizzasHandler
 {
     public static async Task<IResult> HandleAsync(IPizzaRepository repo)
     {
-        throw new NotImplementedException();
+        return Results.Ok(await repo.GetAllPizzas());
     }
 }

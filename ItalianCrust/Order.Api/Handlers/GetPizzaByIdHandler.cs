@@ -12,8 +12,6 @@ public static class GetPizzaByIdHandler
 
     public static async Task<IResult> HandleAsync(IPizzaRepository repo, int id)
     {
-        var pizza = repo?.Orders.FirstOrDefault(o => o.Id == id);
-
-        return (IResult)pizza;
+        throw new NotImplementedException();
     }
 }

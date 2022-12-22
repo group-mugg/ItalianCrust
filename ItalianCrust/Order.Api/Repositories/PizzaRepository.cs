@@ -2,21 +2,28 @@
 
 namespace Order.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using Order.Api.Extensions;
+using Order.Api.Models;
 
 public class PizzaRepository : IPizzaRepository
 {
 
     private ModelDbContext _dBContext;
 
-    public OrderRepository(ModelDbContext dBContextObject)
+    public PizzaRepository(ModelDbContext dBContextObject)
     {
         _dBContext = dBContextObject;
     }
 
-    public Task<bool> CreatePizza(PizzaDTO pizza)
+    public async Task<bool> CreatePizza(PizzaDTO pizza)
     {
-        throw new NotImplementedException();
+        Models.Pizza addPizza = new Pizza();
+        addPizza.Name = pizza.Name;
+        addPizza.Price = pizza.Price;
+        await _dBContext.Pizzas.AddAsync(addPizza);
+
+        await _dBContext.SaveChangesAsync();
+        return true;
     }
 
     public Task<bool> DeletePizza(int id)
@@ -29,9 +36,19 @@ public class PizzaRepository : IPizzaRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<PizzaDTO>> GetAllPizzas()
+    public async Task<IEnumerable<PizzaDTO>> GetAllPizzas()
     {
-        throw new NotImplementedException();
+        var pizzas = await _dBContext.Pizzas.ToListAsync();
+
+        var pizzaDtos = new List<PizzaDTO>();
+
+        foreach (var pizza in pizzas)
+        {
+            var pizzaDto = pizza.ConvertToDTO();
+            pizzaDtos.Add(pizzaDto);
+        }
+
+        return pizzaDtos;
     }
 
     public Task<PizzaDTO?> GetPizzaById(int id)

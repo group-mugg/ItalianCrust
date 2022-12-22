@@ -29,13 +29,13 @@ public class CreatePizzaHandlerTests
     }
 
     [Theory]
-    [InlineData("TestPizza", "-1.00")]//When price is negative
-    [InlineData("", "1.00")]//When name is empty
-    [InlineData(null, "1.00")]//When name is null
+    [InlineData("TestPizza", "-1")]//When price is negative
+    [InlineData("", "1")]//When name is empty
+    [InlineData(null, "1")]//When name is null
     public async Task HandleAsync_WhenInvalidRequest_ReturnsBadRequest(string name, string price)
     {
         //Arrange
-        decimal decimalPrice = decimal.Parse(price);
+        decimal decimalPrice = decimal.Parse(price); // Format error
         var request = new PizzaDTO { Id = 1, Name = name, Price = decimalPrice };
 
         var mock = new Mock<IPizzaRepository>();
@@ -47,8 +47,8 @@ public class CreatePizzaHandlerTests
         var badRequestResult = (BadRequest<bool>)await CreatePizzaHandler.HandleAsync(mock.Object, request);
 
         //Assert
-        Assert.Equal(200, badRequestResult.StatusCode);
+        Assert.Equal(400, badRequestResult.StatusCode);
         var response = Assert.IsAssignableFrom<bool>(badRequestResult.Value);
-        Assert.True(response);
+        Assert.False(response);
     }
 }

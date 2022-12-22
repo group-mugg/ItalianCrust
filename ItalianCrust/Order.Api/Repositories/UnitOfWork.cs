@@ -5,7 +5,7 @@
         private readonly ModelDbContext _modelDbContext;
 
         private IOrderRepository? _orderRepository;
-        public IOrderRepository OrderRepository => _orderRepository ?? (_orderRepository = new OrderRepository(_modelDbContext));
+        public IOrderRepository OrderRepository => _orderRepository ??= new OrderRepository(_modelDbContext);
 
         public UnitOfWork(ModelDbContext modelDbContext)
         {

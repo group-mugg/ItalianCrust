@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ModelDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DbConnectionString");
+    var connectionString = "Server=localhost;Database=ItalianCrustOrderDb;Trusted_Connection=True;TrustServerCertificate=True";
     options.UseSqlServer(connectionString);
 });
 
