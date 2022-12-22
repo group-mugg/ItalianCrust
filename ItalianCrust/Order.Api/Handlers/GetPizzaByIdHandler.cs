@@ -8,10 +8,11 @@ namespace Order.Api.Handlers;
 
 public static class GetPizzaByIdHandler
 {
-    private static readonly ModelDbContext? _dBContext;
-
-    public static async Task<IResult> HandleAsync(IPizzaRepository repo, int id)
+    public static async Task<IResult?> HandleAsync(IPizzaRepository repo, int id)
     {
-        throw new NotImplementedException();
+        if (await repo.GetPizzaById(id) == null)
+            return Results.NotFound();
+
+        return Results.Ok(await repo.GetPizzaById(id));
     }
 }

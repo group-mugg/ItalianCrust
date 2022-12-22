@@ -26,9 +26,18 @@ public class PizzaRepository : IPizzaRepository
         return true;
     }
 
-    public Task<bool> DeletePizza(int id)
+    public async Task<bool> DeletePizza(int id)
     {
-        throw new NotImplementedException();
+        var pizzaIsStored = false;
+        foreach (var storedPizza in _dBContext.Pizzas) if (storedPizza.Id == id) pizzaIsStored = true;
+
+        if (!pizzaIsStored) return false;
+
+        _dBContext.Remove(_dBContext.Pizzas.FirstOrDefault(p => p.Id == id)!);
+
+        await _dBContext.SaveChangesAsync();
+
+        return true;
     }
 
     public Task<bool> EditPizza(PizzaDTO pizza)
@@ -51,8 +60,19 @@ public class PizzaRepository : IPizzaRepository
         return pizzaDtos;
     }
 
-    public Task<PizzaDTO?> GetPizzaById(int id)
+    public async Task<PizzaDTO?> GetPizzaById(int id)
     {
-        throw new NotImplementedException();
+        //var pizzaIsStored = false;
+        //foreach (var storedPizza in _dBContext.Pizzas) if (storedPizza.Id == id) pizzaIsStored = true;
+
+        //if (!pizzaIsStored) return (Task<PizzaDTO?>)Results.NotFound(false);
+
+        var pizza = await _dBContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
+
+        if (pizza == null) return null;
+
+        PizzaDTO pizzaToReturn = pizza.ConvertToDTO();
+
+        return pizzaToReturn;
     }
 }

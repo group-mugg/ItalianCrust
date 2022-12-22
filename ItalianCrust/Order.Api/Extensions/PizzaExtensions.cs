@@ -6,12 +6,12 @@ namespace Order.Api.Extensions
     {
         public static PizzaDTO ConvertToDTO(this Models.Pizza pizza)
         {
-            var pizzaDto = new PizzaDTO();
-            pizzaDto.Id = pizza.Id;
-            pizzaDto.Name = pizza.Name;
-            pizzaDto.Price = pizza.Price;
-
-            return pizzaDto;
+            return new PizzaDTO
+            {
+                Id = pizza.Id,
+                Name = pizza.Name,
+                Price = pizza.Price
+            };
         }
     }
 }
