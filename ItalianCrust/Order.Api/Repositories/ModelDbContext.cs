@@ -28,6 +28,13 @@ namespace Order.Api.Repositories
                 .HasOne(or => or.Pizza)
                 .WithMany(p => p.OrderRows)
                 .HasForeignKey(or => or.PizzaId);
+
+            modelBuilder.Entity<Models.Pizza>()
+                .HasData(
+                new Models.Pizza { Id = 1, Name = "Pizza1", Price = 109.99M },
+                new Models.Pizza { Id = 2, Name = "Pizza2", Price = 119.99M },
+                new Models.Pizza { Id = 3, Name = "Pizza3", Price = 129.99M }
+                );
         }
     }
 }

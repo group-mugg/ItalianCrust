@@ -8,7 +8,6 @@ namespace APIGateway.UnitTests.Pizza
 {
     public class CreatePizzaTests
     {
-
         [Theory]
         [InlineData("Test", 12.3)]
         public async void CreatePizza_WhenPizzaExists_ReturnsOk(string name, decimal price)
