@@ -3,12 +3,6 @@ using Moq;
 using Pizza.Api.DTOs;
 using Pizza.Api.Handlers;
 using Pizza.Api.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Pizza.UnitTests.MoqTests;
 

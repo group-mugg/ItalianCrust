@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Order.Api.DTOs;
 using Order.Api.Models;
 
 namespace Order.Api.Repositories

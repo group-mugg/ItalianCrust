@@ -1,17 +1,16 @@
 ﻿using Order.Api.DTOs;
 
-namespace Order.Api.Extensions
+namespace Order.Api.Extensions;
+
+public static class PizzaExtensions
 {
-    public static class PizzaExtensions
+    public static PizzaDTO ConvertToDTO(this Models.Pizza pizza)
     {
-        public static PizzaDTO ConvertToDTO(this Models.Pizza pizza)
+        return new PizzaDTO
         {
-            return new PizzaDTO
-            {
-                Id = pizza.Id,
-                Name = pizza.Name,
-                Price = pizza.Price
-            };
-        }
+            Id = pizza.Id,
+            Name = pizza.Name,
+            Price = pizza.Price
+        };
     }
 }
