@@ -6,8 +6,10 @@ public static class DeletePizzaHandler
 {
     public static async Task<IResult> HandleAsync(IPizzaRepository repo, int id)
     {
-        if (await repo.DeletePizza(id) == false) return Results.NotFound(false);
+        var request = await repo.DeletePizza(id);
 
-        return Results.Ok(await repo.DeletePizza(id));
+        if (request == false) return Results.NotFound(false);
+
+        return Results.Ok(request);
     }
 }

@@ -6,6 +6,6 @@ public static class GetAllOrdersHandler
 {
     public static async Task<IResult> HandleAsync(IOrderRepository repo)
     {
-        throw new NotImplementedException();
+        return Results.Ok(await repo.GetAllOrders());
     }
 }

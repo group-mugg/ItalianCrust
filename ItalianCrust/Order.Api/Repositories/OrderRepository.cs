@@ -1,4 +1,6 @@
-﻿using Order.Api.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using Order.Api.DTOs;
+using Order.Api.Extensions;
 using Order.Api.Models;
 using Order.Api.Requests;
 
@@ -13,26 +15,76 @@ public class OrderRepository : IOrderRepository
         _dBContext = dBContextObject;
     }
 
-    public Task<bool> CreateOrder(CreateOrderRequest request)
+    public async Task<bool> CreateOrder(CreateOrderRequest request)
     {
-        throw new NotImplementedException();
+        Models.Order addOrder = new()
+        {
+            OrderDate = DateTime.Now,
+            CustomerName = request.Name,
+            OrderRows = (ICollection<OrderRow>)request.PizzaIdQuantity
+        };
+
+        var pizzaIdFound = false;
+
+        // Check if pizza exists
+        foreach (var pizzaInOrder in request.PizzaIdQuantity)
+        {
+            var pizzaId = pizzaInOrder.Key;
+
+            foreach (var pizza in _dBContext.Pizzas)
+            {
+                if (pizzaId == pizza.Id)
+                    pizzaIdFound = true;
+            }
+        }
+
+        if (!pizzaIdFound)
+        {
+            return false;
+        }
+
+        await _dBContext.Orders.AddAsync(addOrder);
+        await _dBContext.SaveChangesAsync();
+        return true;
     }
 
-    public Task<bool> DeleteOrder(int id)
+    public async Task<bool> DeleteOrder(int id)
     {
-        throw new NotImplementedException();
+        var orderIsStored = false;
+        foreach (var storedOrder in _dBContext.Orders) if (storedOrder.Id == id) orderIsStored = true;
+
+        if (!orderIsStored) return false;
+
+        _dBContext.Remove(_dBContext.Orders.FirstOrDefault(o => o.Id == id)!);
+
+        await _dBContext.SaveChangesAsync();
+
+        return true;
     }
 
-    public Task<IEnumerable<OrderDTO>> GetAllOrders()
+    public async Task<IEnumerable<OrderDTO>> GetAllOrders()
     {
-        throw new NotImplementedException();
+        var orders = await _dBContext.Orders.ToListAsync();
+
+        var orderDtos = new List<OrderDTO>();
+
+        foreach (var order in orders)
+        {
+            var orderDto = order.ConvertToDTO();
+            orderDtos.Add(orderDto);
+        }
+
+        return orderDtos;
     }
 
-    public Task<OrderDTO?> GetOrderById(int id)
+    public async Task<OrderDTO?> GetOrderById(int id)
     {
-        var order = _dBContext.Orders.FirstOrDefault(o => o.Id == id);
+        var order = await _dBContext.Orders.FirstOrDefaultAsync(p => p.Id == id);
 
-        //return (IResult)order;
-        throw new NotImplementedException();
+        if (order == null) return null;
+
+        OrderDTO orderToReturn = order.ConvertToDTO();
+
+        return orderToReturn;
     }
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Order.Api.DTOs;
-using Order.Api.Models;
-using Order.Api.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Order.Api.Repositories;
 
 namespace Order.Api.Handlers;
 

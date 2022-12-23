@@ -28,13 +28,12 @@ public class PizzaRepository : IPizzaRepository
 
     public async Task<bool> DeletePizza(int id)
     {
-        var pizzaIsStored = false;
-        foreach (var storedPizza in _dBContext.Pizzas) if (storedPizza.Id == id) pizzaIsStored = true;
+        var dbPizza = await _dBContext.Pizzas.FindAsync(id);
+        
+        if (dbPizza == null)
+            return false;
 
-        if (!pizzaIsStored) return false;
-
-        _dBContext.Remove(_dBContext.Pizzas.FirstOrDefault(p => p.Id == id)!);
-
+        _dBContext.Pizzas.Remove(dbPizza);
         await _dBContext.SaveChangesAsync();
 
         return true;
@@ -44,12 +43,13 @@ public class PizzaRepository : IPizzaRepository
     {
         var storedPizza = await _dBContext.Pizzas.FirstOrDefaultAsync(p => p.Id == pizza.Id);
 
-        _dBContext.Pizzas.Remove(storedPizza);
+        if (storedPizza == null)
+            return false;
 
         storedPizza.Name = pizza.Name;
         storedPizza.Price = pizza.Price;
 
-        await _dBContext.Pizzas.AddAsync(storedPizza);
+        _dBContext.Pizzas.Update(storedPizza);
 
         await _dBContext.SaveChangesAsync();
         return true;

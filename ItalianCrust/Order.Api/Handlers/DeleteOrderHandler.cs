@@ -6,6 +6,10 @@ public static class DeleteOrderHandler
 {
     public static async Task<IResult> HandleAsync(IOrderRepository repo, int id)
     {
-        throw new NotImplementedException();
+        var request = await repo.DeleteOrder(id);
+
+        if (request == false) return Results.NotFound(false);
+
+        return Results.Ok(request);
     }
 }

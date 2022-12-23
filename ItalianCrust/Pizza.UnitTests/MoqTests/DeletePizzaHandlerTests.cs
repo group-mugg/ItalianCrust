@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
-using Pizza.Api.DTOs;
 using Pizza.Api.Handlers;
 using Pizza.Api.Repositories;
 
@@ -8,7 +7,6 @@ namespace Pizza.UnitTests.MoqTests;
 
 public class DeletePizzaHandlerTests
 {
-
     [Fact]
     public async Task HandleAsync_WhenPizzaDoesNotExist_ReturnsNotFound()
     {

@@ -55,7 +55,7 @@ public class GetAllOrdersHandlerTests
             Assert.Equal("Customer1", order1.CustomerName);
             Assert.Equal(1.00M, order1.TotalOrder);
             Assert.Equal(new DateTime(2022, 12, 1), order1.OrderDate);
-            Assert.Equal(2, order1.OrderRowDTOs.Count);
+            Assert.Equal(1, order1.OrderRowDTOs.Count);
             Assert.Equal(1, order1.OrderRowDTOs.First().OrderId);
             Assert.Equal(1, order1.OrderRowDTOs.First().PizzaId);
             Assert.Equal(1, order1.OrderRowDTOs.Select(or => or.Quantity).Sum());
@@ -66,7 +66,7 @@ public class GetAllOrdersHandlerTests
             Assert.Equal("Customer2", order2.CustomerName);
             Assert.Equal(4.00M, order2.TotalOrder);
             Assert.Equal(new DateTime(2022, 12, 2), order2.OrderDate);
-            Assert.Equal(2, order2.OrderRowDTOs.Count);
+            Assert.Equal(1, order2.OrderRowDTOs.Count);
             Assert.Equal(2, order2.OrderRowDTOs.First().OrderId);
             Assert.Equal(2, order2.OrderRowDTOs.First().PizzaId);
             Assert.Equal(2, order2.OrderRowDTOs.Select(or => or.Quantity).Sum());
