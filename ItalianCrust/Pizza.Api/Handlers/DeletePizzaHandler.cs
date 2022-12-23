@@ -6,6 +6,11 @@ public static class DeletePizzaHandler
 {
     public static async Task<IResult> HandleAsync(IPizzaRepository repo, int id)
     {
-        throw new NotImplementedException();
+        var result = await repo.DeletePizza(id);
+        if (result)
+        {
+            return Results.Ok(result);
+        }
+        return Results.NotFound(result);
     }
 }

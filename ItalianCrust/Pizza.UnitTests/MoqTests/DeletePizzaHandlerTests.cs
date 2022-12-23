@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
-using Pizza.Api.DTOs;
 using Pizza.Api.Handlers;
 using Pizza.Api.Repositories;
 
@@ -14,14 +13,16 @@ public class DeletePizzaHandlerTests
         //Arrange
         var mock = new Mock<IPizzaRepository>();
 
-        mock.Setup(m => m.GetPizzaById(It.Is<int>(id => id == 1)))
-            .ReturnsAsync((PizzaDTO?)null);
+        mock.Setup(m => m.DeletePizza(It.Is<int>(id => id == 1)))
+            .ReturnsAsync(false);
 
         //Act
-        var notFoundResult = (NotFound)await GetPizzaByIdHandler.HandleAsync(mock.Object, 1);
+        var notFoundResult = (NotFound<bool>)await DeletePizzaHandler.HandleAsync(mock.Object, 1);
 
         //Assert
         Assert.Equal(404, notFoundResult.StatusCode);
+        var returnedBool = Assert.IsAssignableFrom<bool>(notFoundResult.Value);
+        Assert.False(returnedBool);
     }
 
     [Fact]
@@ -30,20 +31,15 @@ public class DeletePizzaHandlerTests
         //Arrange
         var mock = new Mock<IPizzaRepository>();
 
-        mock.Setup(m => m.GetPizzaById(It.Is<int>(id => id == 1)))
-            .ReturnsAsync(
-                new PizzaDTO { Id = 1, Name = "Mock", Description = "Mock", Price = 1.00m }
-            );
+        mock.Setup(m => m.DeletePizza(It.Is<int>(id => id == 1)))
+            .ReturnsAsync(true);
 
         //Act
-        var okResult = (Ok<PizzaDTO>)await GetPizzaByIdHandler.HandleAsync(mock.Object, 1);
+        var okResult = (Ok<bool>)await DeletePizzaHandler.HandleAsync(mock.Object, 1);
 
         //Assert
         Assert.Equal(200, okResult.StatusCode);
-        var returnedPizza = Assert.IsAssignableFrom<PizzaDTO>(okResult.Value);
-
-        mock.SetupRemove(m => m.DeletePizza(returnedPizza.Id));
-
-        Assert.Empty((System.Collections.IEnumerable)mock);
+        var returnedBool = Assert.IsAssignableFrom<bool>(okResult.Value);
+        Assert.True(returnedBool);
     }
 }
