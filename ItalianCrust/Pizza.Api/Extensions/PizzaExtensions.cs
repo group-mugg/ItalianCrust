@@ -13,7 +13,6 @@ namespace Pizza.Api.Extensions
                 Description = pizza.Description,
                 Price = pizza.Price
             };
-
         }
 
         public static void MapPizzaDTOToPizza(this Models.Pizza pizza, PizzaDTO pizzaDTO)
@@ -23,7 +22,5 @@ namespace Pizza.Api.Extensions
             pizza.Price = pizzaDTO.Price;
         }
 
-
     }
-
 }
