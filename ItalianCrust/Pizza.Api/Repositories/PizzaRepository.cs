@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pizza.Api.DAL;
 using Pizza.Api.DTOs;
+using Pizza.Api.Extensions;
 
 namespace Pizza.Api.Repositories;
 
@@ -13,28 +14,72 @@ public class PizzaRepository : IPizzaRepository
         _context = context;
     }
 
-    public Task<bool> CreatePizza(PizzaDTO pizza)
+    public async Task<bool> CreatePizza(PizzaDTO pizzaDTO)
     {
-        throw new NotImplementedException();
+        Models.Pizza pizza = new Models.Pizza();
+        pizza.MapPizzaDTOToPizza(pizzaDTO);
+
+        await _context.Pizzas.AddAsync(pizza);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
-    public Task<bool> DeletePizza(int id)
+    public async Task<bool> DeletePizza(int id)
     {
-        throw new NotImplementedException();
+        var dBPizza = await _context.Pizzas.FindAsync(id);
+        if (dBPizza is null)
+        {
+            return false;
+        }
+
+        _context.Remove(dBPizza);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
-    public Task<bool> EditPizza(PizzaDTO pizza)
+    public async Task<bool> EditPizza(PizzaDTO pizza)
     {
-        throw new NotImplementedException();
+        var dBPizza = await _context.Pizzas.FindAsync(pizza.Id);
+        if (dBPizza is null)
+        {
+            return false;
+        }
+
+        dBPizza.MapPizzaDTOToPizza(pizza);
+        _context.Update(dBPizza);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
-    public Task<IEnumerable<PizzaDTO>> GetAllPizzas()
+    public async Task<IEnumerable<PizzaDTO>> GetAllPizzas()
     {
-        throw new NotImplementedException();
+        var pizzas = await _context.Pizzas.ToListAsync();
+
+        List<PizzaDTO> pizzaDTOs = new List<PizzaDTO>();
+
+        if(pizzas is not null)
+        {
+            foreach (var pizza in pizzas)
+            {
+                pizzaDTOs.Add(pizza.ConvertToDTO());
+            }
+        }
+        
+        return pizzaDTOs;
     }
 
-    public Task<PizzaDTO?> GetPizzaById(int id)
+    public async Task<PizzaDTO?> GetPizzaById(int id)
     {
-        throw new NotImplementedException();
+        var pizza = await _context.Pizzas.FindAsync(id);
+
+        if (pizza is null)
+        {
+            return null;
+        }
+
+        PizzaDTO pizzaDTO = pizza.ConvertToDTO();
+
+        return pizzaDTO;
+
     }
 }
