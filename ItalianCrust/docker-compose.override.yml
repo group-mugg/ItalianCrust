@@ -26,9 +26,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-    depends_on:
-    - pizza.api
-    - order.api
     ports:
       - "80"
       - "443"

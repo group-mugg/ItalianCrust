@@ -61,4 +61,7 @@ services:
     build:
       context: .
       dockerfile: APIGateway/Dockerfile
+    depends_on:
+      - pizza.api
+      - order.api
 
