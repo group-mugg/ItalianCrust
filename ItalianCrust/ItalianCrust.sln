@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.UnitTests", "Order.Un
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\APIGateway.csproj", "{8299302E-F20D-4C6A-9C95-C20AA4591D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateway.UnitTests", "..\APIGateway.UnitTests\APIGateway.UnitTests.csproj", "{669D1D6D-E1BA-4481-9250-D1DD1F239EF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway.UnitTests", "..\APIGateway.UnitTests\APIGateway.UnitTests.csproj", "{669D1D6D-E1BA-4481-9250-D1DD1F239EF6}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D951C8F0-DB5E-463E-A00A-AA1CC3A6A2B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{669D1D6D-E1BA-4481-9250-D1DD1F239EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{669D1D6D-E1BA-4481-9250-D1DD1F239EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{669D1D6D-E1BA-4481-9250-D1DD1F239EF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D951C8F0-DB5E-463E-A00A-AA1CC3A6A2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D951C8F0-DB5E-463E-A00A-AA1CC3A6A2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D951C8F0-DB5E-463E-A00A-AA1CC3A6A2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D951C8F0-DB5E-463E-A00A-AA1CC3A6A2B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

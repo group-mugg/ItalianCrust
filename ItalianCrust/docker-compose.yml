@@ -1,0 +1,64 @@
+version: '3.4'
+
+networks:
+  pizzas:
+  orders:
+services:
+  pizzadb:
+    container_name: pizza-db
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    ports:
+      - "8001:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MyStrongPassword123!
+      - MSSQL_PID=Developer
+    networks:
+      - pizzas
+  pizza.api:
+    image: ${DOCKER_REGISTRY-}pizzaapi
+    build:
+      context: .
+      dockerfile: Pizza.Api/Dockerfile
+    networks:
+      - pizzas
+    ports:
+      - "8002:80"
+    depends_on:
+      - pizzadb
+    environment:
+      - DB_HOST=pizzadb
+      - DB_NAME=PizzaDb
+      - DB_MSSQL_SA_PASSWORD=MyStrongPassword123!
+  orderdb:
+    container_name: order-db
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    ports:
+      - "8003:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MyStrongPassword123!
+      - MSSQL_PID=Developer
+    networks:
+      - orders
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: Order.Api/Dockerfile
+    networks:
+      - orders
+    ports:
+      - "8004:80"
+    depends_on:
+      - orderdb
+    environment:
+      - DB_HOST=orderdb
+      - DB_NAME=OrderDb
+      - DB_MSSQL_SA_PASSWORD=MyStrongPassword123!
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: APIGateway/Dockerfile
+
